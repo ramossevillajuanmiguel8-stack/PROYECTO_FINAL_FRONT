@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UsuarioService } from '../../../services/api.service';
-import { RolService } from '../../../services/api.service';
-import { Usuario, Rol } from '../../../models/models';
+import { Usuario } from '../../../models/models';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './registro.html',
-  styleUrl: './registro.css',
+  styleUrl: './registro.css'
 })
-export class Registro implements OnInit {
+export class Registro {
 
   usuario: Usuario = {
     username: '',
     password: '',
     nombreapellido: '',
     email: '',
-    rol: { idRol: 4 }
+    rol: { idRol: 4 } // Siempre Cliente — no editable por el usuario
   };
 
   confirmarPassword = '';
@@ -28,22 +27,11 @@ export class Registro implements OnInit {
   error = '';
   exito = '';
   mostrarPassword = false;
-  roles: Rol[] = [];
 
   constructor(
     private usuarioService: UsuarioService,
-    private rolService: RolService,
     private router: Router
   ) {}
-
-  ngOnInit(): void {
-    this.rolService.getAll().subscribe({
-      next: (roles) => {
-        // Solo mostrar roles que no sean Administrador en el registro público
-        this.roles = roles.filter(r => r.idRol !== 1);
-      }
-    });
-  }
 
   registrar(): void {
     if (!this.usuario.username || !this.usuario.password ||
@@ -59,16 +47,22 @@ export class Registro implements OnInit {
     this.cargando = true;
     this.error = '';
 
+    // Forzar rol Cliente antes de enviar
+    this.usuario.rol = { idRol: 4 };
+
     this.usuarioService.save(this.usuario).subscribe({
       next: () => {
         this.cargando = false;
-        this.exito = 'Registro exitoso. Te enviamos las credenciales a tu correo.';
+        this.exito = '¡Registro exitoso! Te enviamos las credenciales a tu correo.';
         setTimeout(() => this.router.navigate(['/login']), 2500);
       },
       error: (err) => {
         this.cargando = false;
-        if (err.status === 400) this.error = 'La contraseña debe tener entre 6 y 8 caracteres, una mayúscula, una minúscula y un número.';
-        else this.error = 'Error al registrar. Intenta de nuevo.';
+        if (err.status === 400) {
+          this.error = 'La contraseña debe tener entre 6 y 8 caracteres, una mayúscula, una minúscula y un número.';
+        } else {
+          this.error = 'Error al registrar. Intenta de nuevo.';
+        }
       }
     });
   }
