@@ -1,0 +1,19 @@
+.icon-box { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center; }
+.mi-posicion-card {
+  background:linear-gradient(135deg,#0A2342,#993556);
+  border-radius:16px;padding:1.5rem 2rem;
+}
+.pos-badge-grande { font-size:2.5rem;line-height:1; }
+.mi-fila { background:#FFF5F8 !important; }
+.table tbody tr:hover { background:#fafbff; }
+.table th { border:none;font-size:12px;letter-spacing:0.5px; }
+.table td { border-color:#f0f0f0;vertical-align:middle; }
+.posicion-badge { font-size:18px; }
+.posicion-badge.top3 { font-size:22px; }
+.usuario-avatar {
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-size:14px;font-weight:700;flex-shrink:0;
+}
+.puntos-col { font-size:18px;font-weight:700;color:#0A2342; }
+.puntos-col.mis-puntos { color:#993556; }

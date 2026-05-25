@@ -1,0 +1,11 @@
+.icon-box { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center; }
+.reporte-card {
+  background:white;border-radius:16px;padding:1.75rem;
+  box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  transition:all 0.2s ease;height:100%;
+}
+.reporte-card:hover { transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,0.1); }
+.reporte-icon {
+  width:64px;height:64px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+}

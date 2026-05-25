@@ -1,0 +1,15 @@
+.perfil-header {
+  background:linear-gradient(135deg,#0A2342,#993556);
+  border-radius:16px;padding:1.75rem 2rem;
+  display:flex;align-items:center;
+}
+.avatar-perfil {
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-size:1.75rem;font-weight:700;flex-shrink:0;
+  border:3px solid rgba(255,255,255,0.3);
+}
+.dato-label { font-size:11px;color:#888;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px; }
+.dato-valor { font-size:14px;font-weight:500;color:#0A2342; }
+.form-control:focus { border-color:#993556;box-shadow:0 0 0 0.2rem rgba(153,53,86,0.15); }

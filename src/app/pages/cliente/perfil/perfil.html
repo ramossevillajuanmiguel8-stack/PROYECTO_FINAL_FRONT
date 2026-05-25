@@ -1,0 +1,138 @@
+<app-navbar />
+<div class="container p-4" style="max-width:680px">
+
+  <!-- Header perfil -->
+  <div class="perfil-header mb-4">
+    <div class="avatar-perfil">{{ iniciales }}</div>
+    <div class="ms-3">
+      <h4 class="fw-bold text-white mb-0">{{ auth.usuario?.nombreapellido }}</h4>
+      <div class="text-white-50 small">&#64;{{ auth.usuario?.username }}</div>
+      <span class="badge rounded-pill mt-1 px-3"
+            style="background:rgba(255,255,255,0.2);color:white;font-size:11px">
+        {{ auth.usuario?.rol?.nombre }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Datos del usuario -->
+  <div class="card border-0 shadow-sm mb-4" style="border-radius:14px">
+    <div class="card-header bg-white border-0 pt-3 pb-2 px-4">
+      <h6 class="fw-bold mb-0">
+        <i class="bi bi-person me-2" style="color:#993556"></i>Información de cuenta
+      </h6>
+    </div>
+    <div class="card-body px-4 pb-4">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="dato-label">Nombre completo</div>
+          <div class="dato-valor">{{ auth.usuario?.nombreapellido }}</div>
+        </div>
+        <div class="col-md-6">
+          <div class="dato-label">Username</div>
+          <div class="dato-valor">&#64;{{ auth.usuario?.username }}</div>
+        </div>
+        <div class="col-md-6">
+          <div class="dato-label">Correo electrónico</div>
+          <div class="dato-valor">{{ auth.usuario?.email }}</div>
+        </div>
+        <div class="col-md-6">
+          <div class="dato-label">Puntos acumulados</div>
+          <div class="dato-valor fw-bold" style="color:#F5C518;font-size:1.3rem">
+            ⭐ {{ auth.usuario?.puntosTotales ?? 0 }} pts
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cambiar contraseña -->
+  <div class="card border-0 shadow-sm mb-4" style="border-radius:14px">
+    <div class="card-header bg-white border-0 pt-3 pb-2 px-4">
+      <h6 class="fw-bold mb-0">
+        <i class="bi bi-lock me-2" style="color:#993556"></i>Cambiar contraseña
+      </h6>
+    </div>
+    <div class="card-body px-4 pb-4">
+
+      @if (error) {
+        <div class="alert alert-danger d-flex align-items-center gap-2 py-2 mb-3">
+          <i class="bi bi-exclamation-circle-fill"></i><span>{{ error }}</span>
+        </div>
+      }
+      @if (exito) {
+        <div class="alert alert-success d-flex align-items-center gap-2 py-2 mb-3">
+          <i class="bi bi-check-circle-fill"></i><span>{{ exito }}</span>
+        </div>
+      }
+
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label small fw-semibold">Contraseña actual</label>
+          <div class="input-group">
+            <input [type]="mostrarActual ? 'text' : 'password'"
+                   class="form-control" [(ngModel)]="passwordForm.actual"
+                   placeholder="Tu contraseña actual"
+                   style="border-radius:10px 0 0 10px">
+            <button type="button" class="btn btn-outline-secondary"
+                    style="border-radius:0 10px 10px 0"
+                    (click)="mostrarActual = !mostrarActual">
+              <i class="bi" [class.bi-eye]="!mostrarActual" [class.bi-eye-slash]="mostrarActual"></i>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-semibold">Nueva contraseña</label>
+          <div class="input-group">
+            <input [type]="mostrarNueva ? 'text' : 'password'"
+                   class="form-control" [(ngModel)]="passwordForm.nueva"
+                   placeholder="6-8 caracteres"
+                   style="border-radius:10px 0 0 10px">
+            <button type="button" class="btn btn-outline-secondary"
+                    style="border-radius:0 10px 10px 0"
+                    (click)="mostrarNueva = !mostrarNueva">
+              <i class="bi" [class.bi-eye]="!mostrarNueva" [class.bi-eye-slash]="mostrarNueva"></i>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-semibold">Confirmar nueva contraseña</label>
+          <input [type]="mostrarNueva ? 'text' : 'password'"
+                 class="form-control" [(ngModel)]="passwordForm.confirmar"
+                 placeholder="Repite la contraseña"
+                 style="border-radius:10px">
+        </div>
+      </div>
+
+      <div class="alert alert-info py-2 small mt-3">
+        <i class="bi bi-info-circle me-1"></i>
+        La contraseña debe tener entre 6 y 8 caracteres, al menos una mayúscula, una minúscula y un número.
+      </div>
+
+      <button class="btn text-white fw-semibold mt-2 px-4"
+              style="background:#993556;border-radius:10px;border:none"
+              [disabled]="cargando"
+              (click)="cambiarClave()">
+        @if (cargando) {
+          <span class="spinner-border spinner-border-sm me-2"></span>Actualizando...
+        } @else {
+          <i class="bi bi-lock-fill me-2"></i>Actualizar contraseña
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Cerrar sesión -->
+  <div class="card border-0 shadow-sm" style="border-radius:14px;border:1.5px solid #FDECEA !important">
+    <div class="card-body px-4 py-3 d-flex align-items-center justify-content-between">
+      <div>
+        <div class="fw-semibold" style="color:#993C1D">Cerrar sesión</div>
+        <div class="text-muted small">Salir de tu cuenta en este dispositivo</div>
+      </div>
+      <button class="btn btn-outline-danger fw-semibold px-4" style="border-radius:10px"
+              (click)="logout()">
+        <i class="bi bi-box-arrow-right me-2"></i>Salir
+      </button>
+    </div>
+  </div>
+
+</div>

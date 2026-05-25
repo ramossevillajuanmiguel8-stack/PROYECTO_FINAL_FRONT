@@ -1,0 +1,134 @@
+<app-navbar />
+<div class="container-fluid p-4" style="background:#f4f6fb;min-height:calc(100vh - 56px)">
+
+  <!-- Bienvenida -->
+  <div class="bienvenida-card mb-4">
+    <div class="d-flex align-items-center gap-3">
+      <div class="avatar-lg">
+        {{ auth.usuario?.nombreapellido?.charAt(0)?.toUpperCase() }}
+      </div>
+      <div>
+        <h4 class="fw-bold text-white mb-0">
+          ¡Hola, {{ auth.usuario?.nombreapellido }}!
+        </h4>
+        <p class="text-white-50 mb-0 small">Bienvenido al Sistema de Predicciones</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Métricas del usuario -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="metric-card">
+        <div class="metric-icon" style="background:#FEF9E7">
+          <i class="bi bi-star fs-4" style="color:#F5C518"></i>
+        </div>
+        <div class="metric-num">{{ puntosTotales }}</div>
+        <div class="metric-lbl">Mis puntos</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="metric-card">
+        <div class="metric-icon" style="background:#E8F8F2">
+          <i class="bi bi-check-circle fs-4" style="color:#1D9E75"></i>
+        </div>
+        <div class="metric-num">{{ prediccionesCorrectas }}</div>
+        <div class="metric-lbl">Aciertos</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="metric-card">
+        <div class="metric-icon" style="background:#EEF3FE">
+          <i class="bi bi-lightbulb fs-4" style="color:#534AB7"></i>
+        </div>
+        <div class="metric-num">{{ misPredicciones.length }}</div>
+        <div class="metric-lbl">Predicciones</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="metric-card">
+        <div class="metric-icon" style="background:#FDECEA">
+          <i class="bi bi-calendar3 fs-4" style="color:#993556"></i>
+        </div>
+        <div class="metric-num">{{ proximosPartidos.length }}</div>
+        <div class="metric-lbl">Próximos partidos</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Próximos partidos -->
+    <div class="col-md-7">
+      <div class="card border-0 shadow-sm" style="border-radius:14px">
+        <div class="card-header bg-white border-0 pt-3 pb-2 px-4">
+          <div class="d-flex align-items-center justify-content-between">
+            <h6 class="fw-bold mb-0">
+              <i class="bi bi-calendar3 me-2" style="color:#993556"></i>Próximos partidos
+            </h6>
+            <a routerLink="/cliente/predicciones" class="btn btn-sm btn-outline-secondary"
+               style="font-size:11px">Ver todos</a>
+          </div>
+        </div>
+        <div class="card-body px-4 pb-3 pt-0">
+          @if (proximosPartidos.length === 0) {
+            <p class="text-muted text-center py-3 small">No hay partidos programados</p>
+          }
+          @for (partido of proximosPartidos; track partido.idPartido) {
+            <div class="partido-row">
+              <div class="equipo-info">
+                <span class="equipo-nombre">{{ partido.equipoLocal?.nombre ?? 'Local' }}</span>
+                <span class="badge bg-secondary mx-2" style="font-size:10px">VS</span>
+                <span class="equipo-nombre">{{ partido.equipoVisitante?.nombre ?? 'Visitante' }}</span>
+              </div>
+              <div class="partido-meta">
+                <span class="badge rounded-pill" style="background:#F5C518;color:#000;font-size:10px">
+                  {{ partido.fase }}
+                </span>
+                <span class="text-muted" style="font-size:11px">
+                  {{ formatearFecha(partido.fechaHora) }}
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Accesos rápidos -->
+    <div class="col-md-5">
+      <div class="card border-0 shadow-sm h-100" style="border-radius:14px">
+        <div class="card-header bg-white border-0 pt-3 pb-2 px-4">
+          <h6 class="fw-bold mb-0">
+            <i class="bi bi-lightning me-2" style="color:#F5C518"></i>Accesos rápidos
+          </h6>
+        </div>
+        <div class="card-body px-4 pb-3 pt-0">
+          <div class="d-grid gap-2">
+            <a routerLink="/cliente/predicciones"
+               class="btn text-start fw-semibold"
+               style="background:#993556;color:white;border-radius:10px">
+              <i class="bi bi-lightbulb me-2"></i>Hacer predicción
+            </a>
+            <a routerLink="/cliente/ranking"
+               class="btn text-start fw-semibold"
+               style="background:#0A2342;color:white;border-radius:10px">
+              <i class="bi bi-trophy me-2"></i>Ver ranking
+            </a>
+            <a routerLink="/cliente/equipos"
+               class="btn text-start fw-semibold"
+               style="background:#1D9E75;color:white;border-radius:10px">
+              <i class="bi bi-flag me-2"></i>Ver equipos
+            </a>
+            <a routerLink="/cliente/perfil"
+               class="btn text-start fw-semibold"
+               style="background:#534AB7;color:white;border-radius:10px">
+              <i class="bi bi-person-circle me-2"></i>Mi perfil
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

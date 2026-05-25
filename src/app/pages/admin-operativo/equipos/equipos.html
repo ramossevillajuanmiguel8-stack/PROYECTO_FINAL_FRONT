@@ -1,0 +1,145 @@
+<app-navbar />
+<div class="container-fluid p-4" style="background:#f4f6fb;min-height:calc(100vh - 56px)">
+
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center gap-3">
+      <div class="icon-box" style="background:#F5C518">
+        <i class="bi bi-flag-fill text-dark fs-4"></i>
+      </div>
+      <div>
+        <h4 class="fw-bold mb-0">Equipos</h4>
+        <p class="text-muted mb-0 small">{{ equipos.length }} equipos registrados</p>
+      </div>
+    </div>
+    <button class="btn text-dark fw-semibold px-4"
+            style="background:#F5C518;border-radius:10px;border:none" (click)="abrirCrear()">
+      <i class="bi bi-plus-lg me-2"></i>Nuevo equipo
+    </button>
+  </div>
+
+  @if (exito) {
+    <div class="alert alert-success d-flex align-items-center gap-2 py-2 mb-3">
+      <i class="bi bi-check-circle-fill"></i><span>{{ exito }}</span>
+    </div>
+  }
+
+  <!-- Tarjetas de equipos -->
+  <div class="row g-2 mb-3">
+    <div class="col-md-5">
+      <div class="input-group">
+        <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+        <input type="text" class="form-control bg-light border-start-0"
+               placeholder="Buscar por nombre o país..."
+               [(ngModel)]="busqueda" (input)="filtrar()"
+               style="border-radius:0 10px 10px 0">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" [(ngModel)]="filtroGrupo" (change)="filtrar()" style="border-radius:10px">
+        <option value="">Todos los grupos</option>
+        @for (g of grupos; track g.idGrupo) {
+          <option [value]="g.idGrupo">Grupo {{ g.nombre }}</option>
+        }
+      </select>
+    </div>
+    <div class="col-auto ms-auto d-flex align-items-center">
+      <span class="text-muted small">{{ equiposFiltrados.length }} equipos</span>
+    </div>
+  </div>
+
+  @if (cargando) {
+    <div class="text-center py-5"><div class="spinner-border" style="color:#F5C518"></div></div>
+  } @else {
+    <div class="row g-3">
+      @for (e of equiposFiltrados; track e.idEquipo) {
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="equipo-card">
+            <div class="equipo-escudo">
+              @if (e.escudoUrl) {
+                <img [src]="e.escudoUrl" [alt]="e.nombre" class="escudo-img"
+                     onerror="this.style.display='none'">
+              } @else {
+                <i class="bi bi-shield-fill" style="font-size:2rem;color:#F5C518"></i>
+              }
+            </div>
+            <div class="equipo-nombre">{{ e.nombre }}</div>
+            <div class="equipo-pais text-muted small">{{ e.pais }}</div>
+            <span class="badge rounded-pill mt-1 px-3"
+                  style="background:#EEF3FE;color:#534AB7;font-size:11px">
+              Grupo {{ e.grupo?.nombre }}
+            </span>
+            <div class="d-flex gap-2 mt-3 justify-content-center">
+              <button class="btn btn-sm btn-outline-primary" style="border-radius:8px"
+                      (click)="abrirEditar(e)"><i class="bi bi-pencil"></i></button>
+              <button class="btn btn-sm btn-outline-danger" style="border-radius:8px"
+                      (click)="eliminar(e.idEquipo!)"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+        </div>
+      }
+      @if (equiposFiltrados.length === 0) {
+        <div class="text-center py-5 col-12">
+          <i class="bi bi-flag" style="font-size:3rem;color:#ddd"></i>
+          <p class="text-muted mt-2">No se encontraron equipos</p>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@if (modalAbierto) {
+  <div class="modal-backdrop-custom" (click)="cerrarModal()"></div>
+  <div class="modal-custom">
+    <div class="modal-card">
+      <div class="modal-header-custom" style="background:linear-gradient(135deg,#0A2342,#c9a000)">
+        <h5 class="mb-0 fw-bold text-white">
+          <i class="bi bi-flag me-2"></i>{{ modoEdicion ? 'Editar equipo' : 'Nuevo equipo' }}
+        </h5>
+        <button class="btn btn-sm btn-link text-white" (click)="cerrarModal()"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="modal-body-custom">
+        @if (error) { <div class="alert alert-danger py-2 small mb-3">{{ error }}</div> }
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label small fw-semibold">Nombre del equipo</label>
+            <input type="text" class="form-control" [(ngModel)]="equipoForm.nombre"
+                   placeholder="Ej: Argentina" style="border-radius:10px">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-semibold">País</label>
+            <input type="text" class="form-control" [(ngModel)]="equipoForm.pais"
+                   placeholder="Ej: Argentina" style="border-radius:10px">
+          </div>
+          <div class="col-12">
+            <label class="form-label small fw-semibold">URL del escudo</label>
+            <input type="url" class="form-control" [(ngModel)]="equipoForm.escudoUrl"
+                   placeholder="https://..." style="border-radius:10px">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-semibold">Grupo</label>
+            <select class="form-select" [(ngModel)]="equipoForm.grupo!.idGrupo" style="border-radius:10px">
+              <option value="">Seleccionar grupo...</option>
+              @for (g of grupos; track g.idGrupo) {
+                <option [value]="g.idGrupo">Grupo {{ g.nombre }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-semibold">Estado</label>
+            <select class="form-select" [(ngModel)]="equipoForm.estado" style="border-radius:10px">
+              <option value="A">Activo</option>
+              <option value="I">Inactivo</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-end mt-4">
+          <button class="btn btn-light px-4" style="border-radius:10px" (click)="cerrarModal()">Cancelar</button>
+          <button class="btn text-dark px-4 fw-semibold"
+                  style="background:#F5C518;border-radius:10px;border:none" (click)="guardar()">
+            <i class="bi bi-check-lg me-2"></i>{{ modoEdicion ? 'Actualizar' : 'Crear' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,20 @@
+.icon-box { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center; }
+.jugador-avatar {
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-size:11px;font-weight:700;flex-shrink:0;
+}
+.camiseta-badge {
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:6px;
+  background:#0A2342;color:white;font-size:12px;font-weight:700;
+}
+.table th { border:none;font-size:12px;letter-spacing:0.5px; }
+.table td { border-color:#f0f0f0;vertical-align:middle; }
+.table tbody tr:hover { background:#fef8f5; }
+.modal-backdrop-custom { position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1040;backdrop-filter:blur(2px); }
+.modal-custom { position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1050;padding:1rem; }
+.modal-card { background:white;border-radius:16px;width:100%;max-width:580px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden;max-height:90vh;overflow-y:auto; }
+.modal-header-custom { padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1; }
+.modal-body-custom { padding:1.5rem; }
+.form-control:focus,.form-select:focus { border-color:#993C1D;box-shadow:0 0 0 0.2rem rgba(153,60,29,0.15); }

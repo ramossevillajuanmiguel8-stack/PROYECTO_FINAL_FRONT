@@ -1,0 +1,112 @@
+<div class="login-bg d-flex align-items-center justify-content-center min-vh-100">
+
+  <!-- Fondo decorativo -->
+  <div class="login-overlay"></div>
+
+  <div class="container position-relative" style="z-index:2; max-width:440px">
+
+    <!-- Logo y título -->
+    <div class="text-center mb-4">
+      <div class="login-badge mb-3">
+        <i class="bi bi-dribbble fs-1 text-warning"></i>
+      </div>
+      <h1 class="fw-bold text-white mb-1" style="font-size:1.8rem">Zona Mundial</h1>
+      <p class="text-white-50 mb-0">Sistema de Gestión Mundial 2026</p>
+    </div>
+
+    <!-- Card del formulario -->
+    <div class="card border-0 shadow-lg" style="border-radius:16px;overflow:hidden">
+
+      <!-- Header de la card -->
+      <div class="card-header border-0 text-center py-3"
+           style="background:linear-gradient(135deg,#0A2342,#1D9E75)">
+        <h5 class="text-white mb-0 fw-semibold">Iniciar sesión</h5>
+      </div>
+
+      <div class="card-body p-4">
+
+        <!-- Alerta de error -->
+        @if (error) {
+          <div class="alert alert-danger d-flex align-items-center gap-2 py-2" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i>
+            <span>{{ error }}</span>
+          </div>
+        }
+
+        <!-- Formulario -->
+        <form (ngSubmit)="login()" #loginForm="ngForm">
+
+          <!-- Username -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold text-secondary small">
+              <i class="bi bi-person me-1"></i>Usuario
+            </label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              placeholder="Ingresa tu usuario"
+              [(ngModel)]="credenciales.username"
+              name="username"
+              required
+              autocomplete="username"
+              style="border-radius:10px;border-color:#dee2e6">
+          </div>
+
+          <!-- Password -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold text-secondary small">
+              <i class="bi bi-lock me-1"></i>Contraseña
+            </label>
+            <div class="input-group">
+              <input
+                [type]="mostrarPassword ? 'text' : 'password'"
+                class="form-control form-control-lg"
+                placeholder="Ingresa tu contraseña"
+                [(ngModel)]="credenciales.password"
+                name="password"
+                required
+                autocomplete="current-password"
+                style="border-radius:10px 0 0 10px;border-color:#dee2e6">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="mostrarPassword = !mostrarPassword"
+                style="border-radius:0 10px 10px 0;border-color:#dee2e6">
+                <i class="bi" [class.bi-eye]="!mostrarPassword" [class.bi-eye-slash]="mostrarPassword"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Botón login -->
+          <button
+            type="submit"
+            class="btn btn-lg w-100 text-white fw-semibold"
+            [disabled]="cargando"
+            style="background:linear-gradient(135deg,#0A2342,#1D9E75);border-radius:10px;border:none">
+            @if (cargando) {
+              <span class="spinner-border spinner-border-sm me-2"></span>
+              Ingresando...
+            } @else {
+              <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar
+            }
+          </button>
+
+        </form>
+
+        <!-- Link al registro -->
+        <div class="text-center mt-3">
+          <span class="text-muted small">¿No tienes cuenta? </span>
+          <a routerLink="/registro" class="fw-semibold text-decoration-none"
+             style="color:#1D9E75">Regístrate aquí</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-3">
+      <small class="text-white-50">© 2026 Sistema de Gestión · Mundial de Fútbol 2026</small>
+    </div>
+
+  </div>
+</div>

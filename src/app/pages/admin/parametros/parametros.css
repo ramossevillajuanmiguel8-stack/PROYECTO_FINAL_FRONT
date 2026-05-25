@@ -1,0 +1,12 @@
+.icon-box { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center; }
+.clave-badge { background:#EEF3FE;color:#534AB7;padding:3px 10px;border-radius:6px;font-size:12px; }
+.valor-chip { background:#f8f9fa;color:#0A2342;padding:3px 12px;border-radius:6px;font-size:13px;font-weight:600; }
+.table th { border:none;font-size:12px;letter-spacing:0.5px; }
+.table td { border-color:#f0f0f0;vertical-align:middle; }
+.table tbody tr:hover { background:#f0fdf8; }
+.modal-backdrop-custom { position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1040;backdrop-filter:blur(2px); }
+.modal-custom { position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1050;padding:1rem; }
+.modal-card { background:white;border-radius:16px;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden; }
+.modal-header-custom { padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between; }
+.modal-body-custom { padding:1.5rem; }
+.form-control:focus,.form-select:focus { border-color:#1D9E75;box-shadow:0 0 0 0.2rem rgba(29,158,117,0.15); }

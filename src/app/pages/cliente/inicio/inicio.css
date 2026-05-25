@@ -1,0 +1,32 @@
+.bienvenida-card {
+  background: linear-gradient(135deg, #0A2342, #993556);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+}
+.avatar-lg {
+  width: 56px; height: 56px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 1.5rem; font-weight: 700;
+}
+.partido-row {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.partido-row:last-child { border-bottom: none; }
+.equipo-info {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 13px;
+}
+.equipo-nombre { color: #0A2342; }
+.partido-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

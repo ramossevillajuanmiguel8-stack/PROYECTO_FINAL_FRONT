@@ -1,0 +1,13 @@
+.icon-box { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center; }
+.grupo-card {
+  background:white;border-radius:16px;padding:1.5rem;text-align:center;
+  box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  transition:all 0.2s ease;
+}
+.grupo-card:hover { transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,0.1); }
+.grupo-letra { font-size:3rem;font-weight:700;color:#0A2342;line-height:1; }
+.modal-backdrop-custom { position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1040;backdrop-filter:blur(2px); }
+.modal-custom { position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1050;padding:1rem; }
+.modal-card { background:white;border-radius:16px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden; }
+.modal-header-custom { padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between; }
+.modal-body-custom { padding:1.5rem; }

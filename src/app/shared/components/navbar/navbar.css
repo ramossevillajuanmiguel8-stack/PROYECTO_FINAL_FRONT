@@ -1,0 +1,26 @@
+.nav-link {
+  color: rgba(255,255,255,0.75) !important;
+  font-size: 13.5px;
+  transition: all 0.2s ease;
+}
+.nav-link:hover {
+  color: #fff !important;
+  background: rgba(255,255,255,0.1);
+}
+.active-link {
+  color: #F5C518 !important;
+  background: rgba(245,197,24,0.12) !important;
+  font-weight: 500;
+}
+.avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}

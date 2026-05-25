@@ -1,0 +1,130 @@
+<app-navbar />
+<div class="container-fluid p-4" style="background:#f4f6fb;min-height:calc(100vh - 56px)">
+
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center gap-3">
+      <div class="icon-box" style="background:#534AB7">
+        <i class="bi bi-shield text-white fs-4"></i>
+      </div>
+      <div>
+        <h4 class="fw-bold mb-0">Roles</h4>
+        <p class="text-muted mb-0 small">Roles del sistema y sus permisos</p>
+      </div>
+    </div>
+    <button class="btn text-white fw-semibold px-4"
+            style="background:#534AB7;border-radius:10px;border:none"
+            (click)="abrirCrear()">
+      <i class="bi bi-plus-lg me-2"></i>Nuevo rol
+    </button>
+  </div>
+
+  @if (exito) {
+    <div class="alert alert-success d-flex align-items-center gap-2 py-2 mb-3">
+      <i class="bi bi-check-circle-fill"></i><span>{{ exito }}</span>
+    </div>
+  }
+  @if (error) {
+    <div class="alert alert-danger d-flex align-items-center gap-2 py-2 mb-3">
+      <i class="bi bi-exclamation-circle-fill"></i><span>{{ error }}</span>
+    </div>
+  }
+
+  @if (cargando) {
+    <div class="text-center py-5"><div class="spinner-border" style="color:#534AB7"></div></div>
+  } @else {
+    <div class="row g-3">
+      @for (r of roles; track r.idRol) {
+        <div class="col-md-6 col-lg-4">
+          <div class="rol-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="rol-icon" [style.background]="bgRol(r.idRol)">
+                <i class="bi bi-shield-fill fs-4" [style.color]="colorRol(r.idRol)"></i>
+              </div>
+              <div>
+                <div class="fw-bold" style="font-size:15px">{{ r.nombre }}</div>
+                <span class="badge rounded-pill px-3"
+                      [style.background]="bgRol(r.idRol)"
+                      [style.color]="colorRol(r.idRol)"
+                      style="font-size:11px">
+                  ID #{{ r.idRol }}
+                </span>
+              </div>
+            </div>
+            <p class="text-muted small mb-3" style="min-height:36px">
+              {{ r.descripcion || 'Sin descripción.' }}
+            </p>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="badge rounded-pill px-3"
+                    [style.background]="r.estado === 'A' ? '#E8F8F2' : '#FDECEA'"
+                    [style.color]="r.estado === 'A' ? '#0F6E56' : '#993C1D'">
+                {{ r.estado === 'A' ? 'Activo' : 'Inactivo' }}
+              </span>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-primary" style="border-radius:8px"
+                        (click)="abrirEditar(r)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" style="border-radius:8px"
+                        (click)="eliminar(r.idRol!)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@if (modalAbierto) {
+  <div class="modal-backdrop-custom" (click)="cerrarModal()"></div>
+  <div class="modal-custom">
+    <div class="modal-card">
+      <div class="modal-header-custom"
+           style="background:linear-gradient(135deg,#0A2342,#534AB7)">
+        <h5 class="mb-0 fw-bold text-white">
+          <i class="bi bi-shield me-2"></i>
+          {{ modoEdicion ? 'Editar rol' : 'Nuevo rol' }}
+        </h5>
+        <button class="btn btn-sm btn-link text-white" (click)="cerrarModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body-custom">
+        @if (error) {
+          <div class="alert alert-danger py-2 small mb-3">{{ error }}</div>
+        }
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label small fw-semibold">Nombre del rol</label>
+            <input type="text" class="form-control" [(ngModel)]="rolForm.nombre"
+                   placeholder="Ej: OPERARIO" style="border-radius:10px">
+          </div>
+          <div class="col-12">
+            <label class="form-label small fw-semibold">Descripción</label>
+            <textarea class="form-control" [(ngModel)]="rolForm.descripcion"
+                      rows="2" placeholder="Describe las funciones de este rol..."
+                      style="border-radius:10px"></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-semibold">Estado</label>
+            <select class="form-select" [(ngModel)]="rolForm.estado" style="border-radius:10px">
+              <option value="A">Activo</option>
+              <option value="I">Inactivo</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-end mt-4">
+          <button class="btn btn-light px-4" style="border-radius:10px"
+                  (click)="cerrarModal()">Cancelar</button>
+          <button class="btn text-white px-4 fw-semibold"
+                  style="background:#534AB7;border-radius:10px;border:none"
+                  (click)="guardar()">
+            <i class="bi bi-check-lg me-2"></i>{{ modoEdicion ? 'Actualizar' : 'Crear' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,68 @@
+<app-navbar />
+<div class="container-fluid p-4" style="background:#f4f6fb;min-height:calc(100vh - 56px)">
+
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <div class="icon-box" style="background:#0A2342">
+      <i class="bi bi-bar-chart text-white fs-4"></i>
+    </div>
+    <div>
+      <h4 class="fw-bold mb-0">Reportes estadísticos</h4>
+      <p class="text-muted mb-0 small">Exporta reportes en PDF con gráficos o en Excel con tablas de datos</p>
+    </div>
+  </div>
+
+  <!-- Banner -->
+  <div class="banner-info mb-4">
+    <div class="d-flex align-items-center gap-3">
+      <i class="bi bi-bar-chart-line text-white fs-3"></i>
+      <div>
+        <div class="text-white fw-semibold mb-1">Reportes con gráficos estadísticos</div>
+        <div class="text-white-50 small">
+          El <strong class="text-white">PDF</strong> incluye un gráfico visual incrustado más la tabla de datos.
+          El <strong class="text-white">Excel</strong> incluye la tabla lista para filtrar y analizar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    @for (r of reportes; track r.id) {
+      <div class="col-md-6 col-lg-4">
+        <div class="reporte-card">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="reporte-icon" [style.background]="r.bg">
+              <i class="bi {{ r.icono }} fs-3" [style.color]="r.color"></i>
+            </div>
+            <h6 class="fw-bold mb-0">{{ r.titulo }}</h6>
+          </div>
+          <p class="text-muted small mb-4">{{ r.descripcion }}</p>
+          <div class="d-flex gap-2">
+            <button class="btn flex-fill fw-semibold text-white"
+                    [style.background]="r.color"
+                    style="border:none;border-radius:10px;font-size:13px"
+                    [disabled]="estaDescargando(r.id, 'pdf')"
+                    (click)="descargar(r.id, 'pdf')">
+              @if (estaDescargando(r.id, 'pdf')) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+              } @else {
+                <i class="bi bi-file-pdf me-1"></i>
+              }
+              PDF
+            </button>
+            <button class="btn flex-fill fw-semibold btn-outline-secondary"
+                    style="border-radius:10px;font-size:13px"
+                    [disabled]="estaDescargando(r.id, 'excel')"
+                    (click)="descargar(r.id, 'excel')">
+              @if (estaDescargando(r.id, 'excel')) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+              } @else {
+                <i class="bi bi-file-earmark-excel me-1"></i>
+              }
+              Excel
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
