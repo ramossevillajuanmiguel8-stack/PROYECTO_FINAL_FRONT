@@ -286,7 +286,11 @@ export class AuditoriaService {
 export class ReporteService {
   constructor(private http: HttpClient) {}
 
-  private descargar(endpoint: string, formato: string, nombreArchivo: string): void {
+  private descargar(endpoint: string, formato: string, nombreBase: string): void {
+    // Mapear formato a extensión correcta
+    const extension = formato === 'excel' ? 'xlsx' : 'pdf';
+    const nombreArchivo = `${nombreBase}.${extension}`;
+
     this.http.get(`${API}/reporte/${endpoint}`, {
       params: { formato },
       responseType: 'blob'
@@ -300,9 +304,9 @@ export class ReporteService {
     });
   }
 
-  predicciones(formato: string)  { this.descargar('predicciones', formato, `predicciones.${formato}`); }
-  goles(formato: string)         { this.descargar('goles',        formato, `goles.${formato}`); }
-  equipos(formato: string)       { this.descargar('equipos',      formato, `equipos.${formato}`); }
-  ranking(formato: string)       { this.descargar('ranking',      formato, `ranking.${formato}`); }
-  auditoria(formato: string)     { this.descargar('auditoria',    formato, `auditoria.${formato}`); }
+  predicciones(formato: string) { this.descargar('predicciones', formato, 'predicciones_usuarios'); }
+  goles(formato: string)        { this.descargar('goles',        formato, 'goles_por_fase'); }
+  equipos(formato: string)      { this.descargar('equipos',      formato, 'rendimiento_equipos'); }
+  ranking(formato: string)      { this.descargar('ranking',      formato, 'ranking_usuarios'); }
+  auditoria(formato: string)    { this.descargar('auditoria',    formato, 'actividad_auditoria'); }
 }
